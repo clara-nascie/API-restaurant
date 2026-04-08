@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        
+        "target": "ES2022", /* Define a versão do JavaScript para a qual o código será compilado. */
+        "lib": ["ES2023"], /* Define o conjunto de declarações de tipos (typing) embutidos usando no projeto. */
+        "paths": {
+            "@/*": ["./src/*"]
+        }, /* Permite utilizar atalhos (alias) para as importações de arquivos, evitando caminhos muito longos como '../../../'. */
+        "module": "node16", /* Especifica o sistema de módulos (módulo de geração) do código compilado. */
+        "esModuleInterop": true, /* Habilita compatibilidade para importações (import/export) de módulos CommonJS. */
+        "forceConsistentCasingInFileNames": true, /* Impede a importação do mesmo arquivo com diferenças de letras maiúsculas/minúsculas. */
+        "strict": true, /* Habilita de forma estrita e rigorosa toda a verificação de tipos do TypeScript. */
+        "skipLibCheck": true /* Ignora a verificação de tipo de arquivos de declaração (.d.ts) para otimizar o tempo de compilação. */
+    }
+}
