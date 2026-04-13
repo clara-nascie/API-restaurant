@@ -5,6 +5,17 @@ export default {
         filename: './src/database/db.sqlite'
     },
 
+    pool: {
+        //configurações do pool
+        // o pool é usado para gerenciar as conexões com o banco de dados
+        // o afterCreate é usado para configurar a conexão com o banco de dados
+        // o PRAGMA foreign_keys = ON; é usado para habilitar as chaves estrangeiras
+        // isso é necessário para que o knex possa criar tabelas com chaves estrangeiras
+        afterCreate: (conn: any, done: any) => {
+            conn.run("PRAGMA foreign_keys = ON;", done);
+        }
+    },
+
     //configurações do knex 
     useNullAsDefault: true,
     // usando arquivos .ts para as migrações
