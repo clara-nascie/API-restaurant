@@ -9,7 +9,7 @@ class ProductsController {
     try {
       //retornando os produtos em json 
       return res.json({
-        message: "Products",
+        message: "Produto cadastrado",
       });
       //mostrando o erro caso ocorra na requisição 
     } catch (error) {
