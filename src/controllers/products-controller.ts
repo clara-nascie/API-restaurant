@@ -64,9 +64,30 @@ class ProductsController {
   //criando o método update para atualizar um produto
   async update(req: Request, res: Response, next: NextFunction) {
     try {
-      const id = z.string().transform((value) => Number(value)).refine((value) => !isNaN
-      (value), {message: "o ID deve ser um número"}).parse(req.params.id)
-      return res.status(200).json({ message: "Atualizado!"});
+      const id = z.string()
+      .transform((value) => Number(value))
+      .refine((value) => !isNaN(value), {message: "o ID deve ser um número"})
+      .parse(req.params.id)
+
+      const bodySchema = z.object({
+        name: z.string().trim().min(6, "nome deve ter pelo menos 6 caracteres"),
+        price: z.number().gt(0, "preço deve ser maior que 0"),
+      });
+
+      //usando o schema para validar os dados que vem na requisição
+      // preciso desestruturar para conseguir pegar as info separadas 
+      const {name, price} = bodySchema.parse(req.body);
+
+      await knex<productRepository>("products")
+      .update({
+        name,
+        price,
+        updated_at: knex.fn.now()
+      })
+      //dizendo qual produto atualizar
+      .where({id});
+
+      return res.status(200).json();
     } catch (error) {
       next(error);
     }
