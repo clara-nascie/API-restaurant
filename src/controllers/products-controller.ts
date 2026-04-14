@@ -37,7 +37,7 @@ class ProductsController {
     try {
       //criando o schema de validação do body para validar os dados que vem na requisição
       // o schema serve para garantir que os dados que vem na requisição estejam corretos
-      //o z.objct é usado para falar que o tipo de dado vai ser uma string ou um número
+      //o z.object é usado para falar que o tipo de dado vai ser uma string ou um número
       const bodySchema = z.object({
         name: z.string().trim().min(6, "nome deve ter pelo menos 6 caracteres"),
         price: z.number().gt(0, "preço deve ser maior que 0"),
@@ -56,6 +56,17 @@ class ProductsController {
       });
 
       return res.status(201).json();
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  //criando o método update para atualizar um produto
+  async update(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = z.string().transform((value) => Number(value)).refine((value) => !isNaN
+      (value), {message: "o ID deve ser um número"}).parse(req.params.id)
+      return res.status(200).json({ message: "Atualizado!"});
     } catch (error) {
       next(error);
     }
