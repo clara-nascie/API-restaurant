@@ -1,6 +1,8 @@
 //importando os tipos de requisição e resposta do express
 import { NextFunction, Request, Response } from "express";
+import {knex} from "@/database/knex"
 import { z } from "zod";
+import { productRepository } from "@/database/types/product-repository";
 
 //criando a classe ProductsController para gerenciar os produtos
 class ProductsController {
@@ -32,7 +34,16 @@ class ProductsController {
 //usando o schema para validar os dados que vem na requisição 
       const { name, price } = bodySchema.parse(req.body);
 
-      return res.status(201).json({ name, price });
+      //esperando knex para inserir os dados na tabela products 
+      //o await faz com que o código espere a resposta do banco de dados antes de continuar
+      //o insert é usado para inserir os dados na tabela products 
+      //importando o tipo productRepository para tipar o knex
+      await knex<productRepository>("products").insert({
+        name,
+        price,
+      });
+
+      return res.status(201).json();
     } catch (error) {
       next(error);
     }

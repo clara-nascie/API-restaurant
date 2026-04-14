@@ -3,6 +3,7 @@
         
         "target": "ES2022", /* Define a versão do JavaScript para a qual o código será compilado. */
         "lib": ["ES2023"], /* Define o conjunto de declarações de tipos (typing) embutidos usando no projeto. */
+        "baseUrl": ".",
         "paths": {
             "@/*": ["./src/*"]
         }, /* Permite utilizar atalhos (alias) para as importações de arquivos, evitando caminhos muito longos como '../../../'. */

@@ -1,4 +1,4 @@
-import {knex as KnexConfig} from "knex";
+import KnexConfig from "knex";
 import config from "../../knexfile";
 
 //exportando a conexão com o banco de dados
