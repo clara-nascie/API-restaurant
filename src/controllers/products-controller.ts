@@ -1,6 +1,6 @@
 //importando os tipos de requisição e resposta do express
 import { NextFunction, Request, Response } from "express";
-import {knex} from "@/database/knex"
+import { knex } from "@/database/knex";
 import { z } from "zod";
 import { productRepository } from "@/database/types/product-repository";
 
@@ -10,11 +10,23 @@ class ProductsController {
   async index(req: Request, res: Response, next: NextFunction) {
     //try catch para tratar erros na requisição
     try {
-      //retornando os produtos em json 
-      return res.json({
-        message: "Produto cadastrado",
-      });
-      //mostrando o erro caso ocorra na requisição 
+      //pegando o nome do produto na query
+      const {name} = req.query;
+      //esperando knex para buscar os dados na tabela products
+      //o await faz com que o código espere a resposta do banco de dados antes de continuar
+      //o select é usado para buscar os dados na tabela products
+      const products = await knex<productRepository>("products")
+      .select("*")
+      //filtro que procura produtos pelo nome ou pela descrição
+      //%${name ?? ''}%`) o simbolo de % significa qualquer coisa
+      //o ?? '' significa que se o nome for nulo, ele vai ser substituido (nullish)
+      //por uma string vazia, mostrando todos os produtos
+      .whereLike("name", `%${name ?? ''}%`)
+      .orderBy("name");
+      
+      //retornando os produtos em json
+      return res.json(products);
+      //mostrando o erro caso ocorra na requisição
     } catch (error) {
       next(error);
     }
@@ -23,7 +35,7 @@ class ProductsController {
   //criando o método create para criar um produto
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      //criando o schema de validação do body para validar os dados que vem na requisição 
+      //criando o schema de validação do body para validar os dados que vem na requisição
       // o schema serve para garantir que os dados que vem na requisição estejam corretos
       //o z.objct é usado para falar que o tipo de dado vai ser uma string ou um número
       const bodySchema = z.object({
@@ -31,12 +43,12 @@ class ProductsController {
         price: z.number().gt(0, "preço deve ser maior que 0"),
       });
 
-//usando o schema para validar os dados que vem na requisição 
+      //usando o schema para validar os dados que vem na requisição
       const { name, price } = bodySchema.parse(req.body);
 
-      //esperando knex para inserir os dados na tabela products 
+      //esperando knex para inserir os dados na tabela products
       //o await faz com que o código espere a resposta do banco de dados antes de continuar
-      //o insert é usado para inserir os dados na tabela products 
+      //o insert é usado para inserir os dados na tabela products
       //importando o tipo productRepository para tipar o knex
       await knex<productRepository>("products").insert({
         name,
