@@ -6,6 +6,9 @@ import { productRepository } from "@/database/types/product-repository";
 
 //criando a classe ProductsController para gerenciar os produtos
 class ProductsController {
+  remove(arg0: string, remove: any) {
+      throw new Error("Method not implemented.");
+  }
   //criando o método index para listar os produtos
   async index(req: Request, res: Response, next: NextFunction) {
     //try catch para tratar erros na requisição
@@ -85,6 +88,25 @@ class ProductsController {
         updated_at: knex.fn.now()
       })
       //dizendo qual produto atualizar
+      .where({id});
+
+      return res.status(200).json();
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  //criando o método delete para deletar um produto
+  async delete(req: Request, res: Response, next: NextFunction) {
+    try {
+       const id = z.string()
+        .transform((value) => Number(value))
+        .refine((value) => !isNaN(value), {message: "o ID deve ser um número"})
+        .parse(req.params.id)
+
+      await knex<productRepository>("products")
+      .delete()
+      //dizendo qual produto deletar
       .where({id});
 
       return res.status(200).json();
