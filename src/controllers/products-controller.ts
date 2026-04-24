@@ -100,8 +100,11 @@ class ProductsController {
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
        const id = z.string()
+       //transformando o id de string para número
         .transform((value) => Number(value))
+        //verificando se o id é um número
         .refine((value) => !isNaN(value), {message: "o ID deve ser um número"})
+        //o parse serve para validar os dados que vem na requisição
         .parse(req.params.id)
 
       await knex<productRepository>("products")

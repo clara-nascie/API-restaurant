@@ -16,7 +16,7 @@ productsRoutes.post("/", productsController.create);
 productsRoutes.put("/:id", productsController.update);
 
 //criando a rota delete para deletar um produto
-productsRoutes.delete("/:id", productsController.remove);
+productsRoutes.delete("/:id", productsController.delete);
 
 //exportando as rotas de produtos para pode usar em outros arquivos
 export { productsRoutes }
