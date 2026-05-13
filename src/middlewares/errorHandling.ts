@@ -26,6 +26,7 @@ export function errorHandling (
             statusCode: 400
         });
     }
+    console.error(error);
     //retornando o erro com o status code 500 e a mensagem caso seja um erro externo, ou seja do cliente
     return res.status(500).json({
         message: "Internal server error"

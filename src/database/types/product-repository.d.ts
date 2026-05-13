@@ -6,7 +6,6 @@
 //tipagens dos dados que vem do banco de dados
 //e importar esse arquivo no arquivo que vai usar as tipagens
 //o arquivo .d.ts vai conter as tipagens dos dados que vem do banco de dados
-//e importar esse arquivo no arquivo que vai usar as tipagens
 
 type productRepository = {
   id: number;
