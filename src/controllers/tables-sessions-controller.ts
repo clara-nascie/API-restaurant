@@ -49,6 +49,25 @@ class TablesSessionsController {
             next(error);
         }
     } 
-}
+
+    //atualizar a sessão de mesa
+    async update(req: Request, res: Response, next: NextFunction) {
+    try {
+        //transforma o ID em número e verifica se é um número 
+        const id = z
+        .string()
+        .transform((value) => Number(value))
+        //verifica se o ID é válido 
+        .refine((value) => !isNaN(value), { message: 'ID deve ser um número' })
+        //validação do body 
+        .parse(req.params.id);
+
+        return res.json();
+       
+    } catch (error) {
+        next(error);
+    }
+    }
+} 
 
 export { TablesSessionsController };

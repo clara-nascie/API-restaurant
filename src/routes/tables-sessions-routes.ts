@@ -10,4 +10,7 @@ tablesSessionsRoutes.post("/", tablesSessionsController.create);
 //lista todas as sessões abertas e fechadas 
 tablesSessionsRoutes.get("/", tablesSessionsController.index);
 
+//encerra a sessão de mesa pelo id 
+tablesSessionsRoutes.patch("/:id", tablesSessionsController.update);
+
 export { tablesSessionsRoutes };
