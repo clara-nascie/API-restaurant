@@ -62,6 +62,26 @@ class TablesSessionsController {
         //validação do body 
         .parse(req.params.id);
 
+        //verificar se tem sessão aberta
+        const session = await knex<TablesSessionsRepository>('tables_sessions')
+        .where({ id })
+        .first();
+
+        //validação para ver se a sessão existe
+        if (!session) {
+            throw new AppError('Sessão não encontrada', 404);
+        }
+        //validação para ver se a sessão não está fechada
+        if (session.closed_at) {
+            throw new AppError('Sessão já está fechada', 400);
+        }
+
+        //update na sessão para fechar ela
+        await knex<TablesSessionsRepository>('tables_sessions').update({
+            closed_at: knex.fn.now() 
+        }).where({ id });
+        
+
         return res.json();
        
     } catch (error) {
