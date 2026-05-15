@@ -24,6 +24,7 @@ export async function up(knex: Knex): Promise<void> {
         table.decimal('price').notNullable();
 
         //coluna created_at que sera referenciada pela tabela orders
+        //defaultTo(knex.fn.now()) insere a data atual automaticamente
         table.dateTime('created_at').defaultTo(knex.fn.now());
         //coluna updated_at que sera referenciada pela tabela orders
         table.dateTime('updated_at').defaultTo(knex.fn.now())
