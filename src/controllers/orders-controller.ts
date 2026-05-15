@@ -67,11 +67,19 @@ class OrdersController {
             "orders.product_id",
             "products.name",
             "orders.quantity",
-            "products.price")
+            "products.price",
+
+            //cria coluna virtual que nao existe no banco de dados 
+            // o raw serve para fazer query sql crua
+            knex.raw("(orders.quantity * products.price) as total"),
+            "orders.created_at",
+            "orders.updated_at"
+        
+        )
 
             .join("products", "products.id", "orders.product_id")
-
-            .where({table_session_id});
+            .where({table_session_id})
+            .orderBy("orders.created_at", "desc");
 
             return res.json(order);
 
