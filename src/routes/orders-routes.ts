@@ -14,6 +14,6 @@ const ordersController = new OrdersController();
 ordersRoutes.post("/", ordersController.create);
 
 //criando a rota para listar os pedidos
-ordersRoutes.get("/table-session/:id", ordersController.index);
+ordersRoutes.get("/table-session/:table_session_id", ordersController.index);
 
 export {ordersRoutes}
