@@ -87,7 +87,31 @@ class OrdersController {
             next(error);
         }
     }
+
+    //função para mostrar um resumo de todos os pedidos de todos os clientes de u
+    async show (req: Request, res: Response, next: NextFunction) {
+        try {
+            const { table_session_id } = req.params;
+
+            const order = await knex("orders")
+            .select(
+                //COALESCE serve para retornar 0 caso não haja nenhum pedido
+                //SUM serve para somar todos os pedidos
+                //(orders.price * orders.quantity) serve para calcular o total de cada pedido
+            knex.raw("COALESCE(SUM(orders.price * orders.quantity), 0) as total"),
+            knex.raw("COALESCE(SUM(orders.quantity), 0) as quantidade_total_itens"),
+            )
+            .where({table_session_id})
+            .first()
+
+            return res.json(order);
+
+        } catch (error) {
+            next(error);
+        }
+    }
 }
+
 
 export default OrdersController;
 

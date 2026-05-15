@@ -13,7 +13,10 @@ const ordersController = new OrdersController();
 //criando a rota para os pedidos
 ordersRoutes.post("/", ordersController.create);
 
-//criando a rota para listar os pedidos
+//criando a rota para mostrar os pedidos de uma sessão
 ordersRoutes.get("/table-session/:table_session_id", ordersController.index);
+
+//criando a rota para mostrar o total de pedidos de uma sessão
+ordersRoutes.get("/table-session/:table_session_id/total", ordersController.show);
 
 export {ordersRoutes}
